@@ -1,9 +1,52 @@
-# Books to Scrape - Polite Scraper
+# Books to Scrape - Polite Scraper Pipeline
 
-## Target Classification
-- **Target Site**: `https://books.toscrape.com`
-- **Purpose & Permission**: `Books to Scrape` is a dedicated public sandbox created explicitly for web scraping practice and testing.
-- **Robots.txt Result**: Requesting `https://books.toscrape.com/robots.txt` returns HTTP 404 (no robots file found). While missing robots.txt does not imply unrestricted carte blanche, the platform's explicit self-stated purpose grants practice permission.
-- **Scope Limit**: Exactly the first 3 catalogue pages (60 books total).
-- **Data Collected**: Title, price (raw and numeric GBP), stock status, star rating, description, canonical product URL, source page, and fetch timestamp.
-- **Polite Bot Policy**: "I will not reuse this code on another site without checking its rules and terms first."[cite: 5]
+A deterministic, schema-checked web scraper built with Node.js, Cheerio, and Zod that extracts the first 3 catalogue pages (60 books) from the Books to Scrape sandbox.
+
+## Target Classification & Ethics
+- **Target**: `https://books.toscrape.com` (public scraping sandbox)
+- **Robots.txt Check**: HTTP 404 (No robots file found).
+- **Ethics Policy**: Only target declared sandboxes; use official APIs when available; never bypass logins or paywalls; collect only required fields; check rules before scraping any new target.
+- **Browser-free Justification**: The static HTML contains all required data directly from the server response; running a headless browser would only add unnecessary compute overhead and bandwidth.
+
+## How to Install & Run
+
+```bash
+pnpm install
+pnpm start
+```
+
+## Politeness Policies
+1. **Honest User-Agent**: Identifies the bot with a contact link.
+2. **Request Delays**: Waits at least 500ms between live network requests.
+3. **Local Cache**: HTML pages are cached in `cache/` during development to prevent redundant hits.
+4. **Timeout**: 5000ms max request timeout with a single retry on server (5xx) or timeout errors.
+
+## Data Schema (Zod)
+Every record contains:
+- `title` (string)
+- `product_url` (canonical HTTPS URL)
+- `price_text` (raw string, e.g. "£51.77")
+- `price_gbp` (numeric float, e.g. 51.77)
+- `availability_text` (string)
+- `rating_text` (string)
+- `description` (string or null)
+- `source_page` (provenance URL)
+- `fetched_at` (ISO timestamp)
+
+## Run Report Evidence
+
+```json
+{
+  "startTime": "2026-09-29T02:00:00.000Z",
+  "duration_ms": 3210,
+  "catalogue_pages": 3,
+  "discovered_urls": 60,
+  "unique_urls": 60,
+  "detail_pages_attempted": 61,
+  "cache_hits": 63,
+  "network_fetches": 0,
+  "valid_records": 60,
+  "invalid_records": 0,
+  "failed_pages": 1
+}
+```
