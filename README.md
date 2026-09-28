@@ -37,14 +37,14 @@ Every record contains:
 
 ```json
 {
-  "startTime": "2026-09-29T02:00:00.000Z",
-  "duration_ms": 3210,
+  "startTime": "2026-09-28T21:14:39.314Z",
+  "duration_ms": 50186,
   "catalogue_pages": 3,
   "discovered_urls": 60,
   "unique_urls": 60,
   "detail_pages_attempted": 61,
-  "cache_hits": 63,
-  "network_fetches": 0,
+  "cache_hits": 0,
+  "network_fetches": 63,
   "valid_records": 60,
   "invalid_records": 0,
   "failed_pages": 1
